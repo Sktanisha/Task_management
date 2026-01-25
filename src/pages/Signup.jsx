@@ -1,7 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router'
 
 const Signup = () => {
+    let [details, setDetails]= useState({
+        email: "",
+        password:""
+    })
+
+    let handleChange = (e) =>{
+        setDetails({
+            ...details,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    let handleSignup = () =>{
+        
+    }
   return (
     <div>
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
@@ -26,6 +41,7 @@ const Signup = () => {
           </label>
           <div className="relative flex items-center">
             <input
+            onChange={handleChange}
               name="email"
               type="text"
               required=""
@@ -76,6 +92,7 @@ const Signup = () => {
           </label>
           <div className="relative flex items-center">
             <input
+            onChange={handleChange}
               name="password"
               type="password"
               required=""
@@ -113,7 +130,7 @@ const Signup = () => {
           </div>
         </div>
         <div className="mt-12">
-          <button
+          <button onClick={handleSignup}
             type="button"
             className="w-full shadow-xl py-2.5 px-4 text-sm font-medium tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer"
           >
