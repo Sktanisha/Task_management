@@ -126,6 +126,9 @@ const Signup = () => {
             </svg> */}
           </div>
         </div>
+
+
+        
         <div className="flex flex-wrap items-center justify-between gap-4 mt-8">
           <div className="flex items-center">
             <input
