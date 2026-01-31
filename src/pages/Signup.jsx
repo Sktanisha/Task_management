@@ -26,11 +26,25 @@ const Signup = () => {
   };
 
   let handleSignup = ()=>{
+    let valid = false;
+
+    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(details.email)){
+      valid = true
+    }
+    else{
+      valid = false
+    }
     if(!details.email){
       setEmailError("Email is required")
     }
     if(!details.password){
       setPasswordError("Email is required")
+    }
+    if(!!valid){
+      setEmailError("Email is not valid")
+    }
+    else if(details.email && details.password && valid){
+      toast.success("Signup Successful")
     }
   }
 
