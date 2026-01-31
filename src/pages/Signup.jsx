@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const Signup = () => {
   let [details, setDetails] = useState({
@@ -44,7 +45,17 @@ const Signup = () => {
       setEmailError("Email is not valid")
     }
     else if(details.email && details.password && valid){
-      toast.success("Signup Successful")
+      createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed up 
+    const user = userCredential.user;
+    
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
     }
   }
 
