@@ -4,6 +4,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase.config";
 
 const Signup = () => {
   let [details, setDetails] = useState({
@@ -45,16 +46,24 @@ const Signup = () => {
       setEmailError("Email is not valid")
     }
     else if(details.email && details.password && valid){
-      createUserWithEmailAndPassword(auth, email, password)
+      createUserWithEmailAndPassword(auth, details.email, details.password)
   .then((userCredential) => {
-    // Signed up 
     const user = userCredential.user;
+    setDetails({
+      email:"",
+      password:""
+    })
+    toast.success("User created successfully")
     
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    // ..
+    if(errorCode ==="auth/email-already-in-use"){
+      setEmailError("Email already in use")
+    } else{
+      toast.error("Something went wrong")
+    }
   });
     }
   }
