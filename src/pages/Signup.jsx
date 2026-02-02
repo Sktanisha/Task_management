@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile,sendEmailVerification  } from "firebase/auth";
 import { auth } from "../../firebase.config";
 
 const Signup = () => {
@@ -11,8 +11,8 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  let [emailError, setEmailError]=useState("")
-  let [passwordError, setPasswordError]=useState("")
+  let [emailError, setEmailError] = useState("");
+  let [passwordError, setPasswordError] = useState("");
 
   let [errors, setErrors] = useState({
     email: "",
@@ -27,46 +27,49 @@ const Signup = () => {
     });
   };
 
-  let handleSignup = ()=>{
+  let handleSignup = () => {
     let valid = false;
 
-    if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(details.email)){
-      valid = true
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(details.email)) {
+      valid = true;
+    } else {
+      valid = false;
     }
-    else{
-      valid = false
+    if (!details.email) {
+      setEmailError("Email is required");
     }
-    if(!details.email){
-      setEmailError("Email is required")
+    if (!details.password) {
+      setPasswordError("Email is required");
     }
-    if(!details.password){
-      setPasswordError("Email is required")
-    }
-    if(!!valid){
-      setEmailError("Email is not valid")
-    }
-    else if(details.email && details.password && valid){
+    if (!valid) {
+      setEmailError("Email is not valid");
+    } else if (details.email && details.password && valid) {
       createUserWithEmailAndPassword(auth, details.email, details.password)
-  .then((userCredential) => {
-    const user = userCredential.user;
-    setDetails({
-      email:"",
-      password:""
-    })
-    toast.success("User created successfully")
-    
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    if(errorCode ==="auth/email-already-in-use"){
-      setEmailError("Email already in use")
-    } else{
-      toast.error("Something went wrong")
+        .then((userCredential) => {
+          updateProfile(auth.currentUser, {
+            displayName: "Jane Q. User",
+          }).then(()=>{
+            sendEmailVerification(auth.currentUser)
+            const user = userCredential.user;
+          setDetails({
+            email: "",
+            password: "",
+          });
+          toast.success("User created successfully");
+          });
+          
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if (errorCode === "auth/email-already-in-use") {
+            setEmailError("Email already in use");
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
     }
-  });
-    }
-  }
+  };
 
   /* let handleSignup = () => {
     if (!details.email) {
@@ -113,7 +116,7 @@ const Signup = () => {
                     type="text"
                     required=""
                     value={details.email}
-                    className={`w-full text-slate-900 text-sm border-b ${emailError? "border-red-600": "border-slate-300"}  focus:border-blue-600 pl-2 pr-8 py-3 outline-none`}
+                    className={`w-full text-slate-900 text-sm border-b ${emailError ? "border-red-600" : "border-slate-300"}  focus:border-blue-600 pl-2 pr-8 py-3 outline-none`}
                     placeholder="Enter email"
                   />
                   <svg
@@ -159,8 +162,7 @@ const Signup = () => {
                     type={showPassword ? "text" : "password"}
                     required=""
                     value={details.password}
-                    className={`w-full text-slate-900 text-sm border-b ${passwordError? "border-red-600": "border-slate-300"}  focus:border-blue-600 pl-2 pr-8 py-3 outline-none`}
-                    
+                    className={`w-full text-slate-900 text-sm border-b ${passwordError ? "border-red-600" : "border-slate-300"}  focus:border-blue-600 pl-2 pr-8 py-3 outline-none`}
                     placeholder="Enter password"
                   />
                   {showPassword ? (
