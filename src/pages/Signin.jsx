@@ -1,19 +1,46 @@
-import React, { useState } from 'react'
-import { Link } from "react-router";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
-
-
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase.config";
+import toast from "react-hot-toast";
 
 const Signin = () => {
-
-  let [showPassword, setShowPassword]= useState(false)
-  let handleChange = (e) =>{
-        setDetails({
-            ...details,
-            [e.target.name]: e.target.value
+  let [details, setDetails] = useState({
+    email: "",
+    password: "",
+  });
+  let navigate = useNavigate();
+  let [showPassword, setShowPassword] = useState(false);
+  let handleChange = (e) => {
+    setDetails({
+      ...details,
+      [e.target.name]: e.target.value,
+    });
+  };
+  let handleSignin = () => {
+    if (details.email && details.password) {
+      signInWithEmailAndPassword(auth, details.email, details.password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          toast.success("Signed in successfully")
+          setTimeout(()=>{
+            navigate("/")
+          },2000);
         })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          if(errorCode === "auth/invalid-credential"){
+            toast.error("Invalid credential ")
+          }
+        });
+    } else {
+      toast.error("All fields are required");
     }
+  };
   return (
     <div>
       <div>
@@ -39,6 +66,7 @@ const Signin = () => {
                   </label>
                   <div className="relative flex items-center">
                     <input
+                      onChange={handleChange}
                       name="email"
                       type="text"
                       required=""
@@ -130,6 +158,7 @@ const Signin = () => {
                 </div>
                 <div className="mt-12">
                   <button
+                    onClick={handleSignin}
                     type="button"
                     className="w-full shadow-xl py-2.5 px-4 text-sm font-medium tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none cursor-pointer"
                   >
