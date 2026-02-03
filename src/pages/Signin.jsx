@@ -148,12 +148,12 @@ const Signin = () => {
                     </label>
                   </div>
                   <div>
-                    <a
+                    <Link to="/reset-password"
                       href="jajvascript:void(0);"
                       className="text-blue-600 font-medium text-sm hover:underline"
                     >
                       Forgot Password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="mt-12">
