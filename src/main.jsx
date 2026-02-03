@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { Toaster } from 'react-hot-toast'
+import { store } from './redux/app/store.js'
+import { Provider } from 'react-redux'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -10,6 +12,9 @@ createRoot(document.getElementById('root')).render(
   position="top-center"
   reverseOrder={false}
 />
-    <App />
+<Provider store={store}>
+<App />
+</Provider>
+    
   </StrictMode>,
 )
