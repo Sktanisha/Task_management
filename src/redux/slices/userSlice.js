@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: 0,
+  value: " ",
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addUser: (state) => {
+    addUser: (state, action) => {
       
-      state.value += 1
+      state.value = action.payload
     },
     removeUser: (state) => {
       
@@ -21,6 +21,6 @@ export const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addUsert } = userSlice.actions
+export const { addUser } = userSlice.actions
 
 export default userSlice.reducer

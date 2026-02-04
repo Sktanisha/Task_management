@@ -5,8 +5,12 @@ import { FaEye } from "react-icons/fa";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import toast from "react-hot-toast";
+import {useSelector} from 'react-redux';
 
 const Signin = () => {
+
+  let user = useSelector((state)=> state.user.value)
+
   let [details, setDetails] = useState({
     email: "",
     password: "",
