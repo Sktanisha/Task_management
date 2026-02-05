@@ -31,6 +31,9 @@ const Signin = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+
+          localStorage.setItem("user", JSON.stringify(user))
+
           dispatch(addUser(user))
           toast.success("Signed in successfully")
           setTimeout(()=>{
