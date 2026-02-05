@@ -5,11 +5,13 @@ import { FaEye } from "react-icons/fa";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase.config";
 import toast from "react-hot-toast";
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import { addUser } from "../redux/slices/userSlice";
 
 const Signin = () => {
 
   let user = useSelector((state)=> state.user.value)
+  let dispatch = useDispatch();
 
   let [details, setDetails] = useState({
     email: "",
@@ -29,6 +31,7 @@ const Signin = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          dispatch(addUser(user))
           toast.success("Signed in successfully")
           setTimeout(()=>{
             navigate("/")
