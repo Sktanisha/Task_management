@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Banner from '../components/home/Banner'
 import Category from '../components/home/Category'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import {useSelector, useDispatch} from 'react-redux';
 
 
 const Home = () => {
 
- /* let user = useSelector((state)=> state.user.value)
- let [name, setName]=useState('') */
-let user = JSON.parse(localStorage.getItem("user"))
+ let user = useSelector((state)=> state.user.value)
+ let navigate = useNavigate()
+  /*let [name, setName]=useState('') */
+/* let user = JSON.parse(localStorage.getItem("user")) */
+let data = auth;
+console.log(data.currentUser)
+
+
+useEffect(()=>{
+  if(!user){
+    navigate("/signin")
+  }
+})
+
 
 let handleSubmit = ()=>{
   
