@@ -136,7 +136,7 @@ const Signin = () => {
                     ) : (
                       <FaEyeSlash
                         onClick={() => setShowPassword(!showPassword)}
-                        className="w-[18px] h-[18px] absolute right-2 cursor-pointer"
+                        className= "w-[18px] h-[18px] absolute right-2 cursor-pointer"
                       />
                     )}
                   </div>
@@ -260,7 +260,7 @@ const Signin = () => {
             <div className="w-full h-full flex items-center bg-[#000842] rounded-xl p-8">
               <img
                 src="https://readymadeui.com/signin-image.webp"
-                className="w-full aspect-[12/12] object-contain"
+                className="w-full `aspect-[12/12]` object-contain"
                 alt="login-image"
               />
             </div>
