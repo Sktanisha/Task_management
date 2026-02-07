@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import Signup from './pages/Signup';
 import Signin from './pages/Signin';
 import ResetPassword from './pages/ResetPassword';
+import Layout from './components/Layout';
 
 const App = () => {
   const router = createBrowserRouter([
@@ -32,7 +33,10 @@ const App = () => {
   }
 ]);
   return (
-    <RouterProvider router={router} />
+    <Layout>
+      <RouterProvider router={router} />
+    </Layout>
+    
   )
 }
 
